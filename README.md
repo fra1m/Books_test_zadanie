@@ -12,7 +12,7 @@ https://www.docker.com
 
 3. Запустить БД с помощьб команды 
 ```
-docker-compose up -d
+docker-compose up --build
 ```
 
 4. Перейдите в папку backend_books
