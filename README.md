@@ -20,17 +20,22 @@ docker-compose up --build
 cd backend
 ```
 
-5. Создайте миграцию
+5. Установите зависимости 
+```
+yarn install
+```
+
+6. Создайте миграцию
 ```
 yarn migration
 ```
 
-5. Выполните миграцию
+7. Выполните миграцию
 ```
 yarn migrate
 ```
 
-7. Запустить backend 
+8. Запустить backend 
 ```
 yarn dev или yarn start
 ```
