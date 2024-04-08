@@ -16,7 +16,6 @@ export class BookService {
 
   async createBook(createBookDto: CreateBookDto, userId: number) {
     const user = await this.UserService.getUserById(userId);
-    console.log(user.id);
     const book = await this.bookRepository.save({
       ...createBookDto,
     });

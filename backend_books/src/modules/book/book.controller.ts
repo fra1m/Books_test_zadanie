@@ -39,13 +39,11 @@ export class BookController {
     return this.bookService.getAllBooks();
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   getBookById(@Param('id') id: number) {
     return this.bookService.getBookById(id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @UseGuards(OwnerGuard)
   @Patch(':id')
   updateBookById(
@@ -55,7 +53,6 @@ export class BookController {
     return this.bookService.updateBookById(id, updateBookDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @UseGuards(OwnerGuard)
   @Delete(':id')
   removeBookById(@Param('id') id: number) {
