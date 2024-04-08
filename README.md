@@ -7,35 +7,38 @@ https://www.docker.com
 # Для запуска проекта, необходимо выполнить следующие шаги:
 
 1. Склонировать репозиторий с api
+   ```
+   git clone https://github.com/fra1m/Books_test_zadanie.git
+   ```
 
 2. Перейдите в папку backend_books
-```
-cd backend_books
-```
+   ```
+   cd backend_books
+   ```
 
 3. Запустить БД и REST API с помощью команды 
-```
-docker-compose up --build
-```
-или в фоновом режиме 
-```
-docker-compose up --build -d
-```
+   ```
+   docker-compose up --build
+   ```
+   или в фоновом режиме 
+   ```
+   docker-compose up --build -d
+   ```
 
 4. Создайте миграцию
-```
-yarn migration
-```
+   ```
+   yarn migration
+   ```
 
 5. Выполните миграцию
-```
-yarn migrate
-```
+   ```
+   yarn migrate
+   ```
 
-Для отката миграции
-```
-yarn revert
-```
+   Для отката миграции
+   ```
+   yarn revert
+   ```
 
 # 2. CRUD операции 
 
