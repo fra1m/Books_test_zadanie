@@ -40,7 +40,7 @@ https://www.docker.com
    yarn revert
    ```
 
-# Если команды `yarn migration` или `yarn migrate` не работают то тогда установити зависимости вручную
+# Если команды `yarn migration` или `yarn migrate` не работают то тогда установитe зависимости вручную
 1. Перейдите в папку backend_books
    ```
    cd backend_books
