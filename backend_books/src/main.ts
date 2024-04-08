@@ -15,7 +15,6 @@ async function bootstrap() {
     .setTitle('RESTful API для управления книгами с аутентификацией')
     .setDescription('Документация по REST API')
     .setVersion('1.0.0')
-    .addTag('Backend')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

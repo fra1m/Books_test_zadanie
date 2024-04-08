@@ -18,7 +18,12 @@ export class UserEntity extends BaseEntity {
   @Column({ unique: true, nullable: false })
   email: string;
 
-  @ApiProperty({ example: 'pass123', description: 'Пароль пользователя' })
+  @ApiProperty({
+    example: 'pass123',
+    description: 'Пароль пользователя',
+    minLength: 4,
+    maxLength: 16,
+  })
   @Column({ nullable: false })
   password: string;
 
@@ -29,7 +34,7 @@ export class UserEntity extends BaseEntity {
   @Column({ nullable: false })
   name: string;
 
-  @OneToMany(() => BookEntity, (post) => post.user_id, {
+  @OneToMany(() => BookEntity, (book) => book.user, {
     cascade: true,
     eager: true,
   })

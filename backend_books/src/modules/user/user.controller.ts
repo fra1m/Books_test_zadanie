@@ -8,6 +8,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AuthService } from '@modules/auth/auth.service';
+import { UserEntity } from '@entities/User.entity';
+import { AuthUserDto } from '@modules/auth/dto/auth-user.dto';
 
 class TokenResponse {
   @ApiProperty({
@@ -17,7 +19,7 @@ class TokenResponse {
   token: string;
 }
 
-@ApiTags('Authorization')
+@ApiTags('Users authorization')
 @Controller('users')
 export class UserController {
   constructor(private readonly authService: AuthService) {}
@@ -25,14 +27,14 @@ export class UserController {
   @ApiOperation({ summary: 'Авторизация пользователя' })
   @ApiResponse({ status: 200, type: TokenResponse })
   @Post('/login')
-  login(@Body() userDto: CreateUserDto) {
+  userAuth(@Body() userDto: AuthUserDto) {
     return this.authService.login(userDto);
   }
 
   @ApiOperation({ summary: 'Регистрация пользователя' })
-  @ApiResponse({ status: 200, type: TokenResponse })
+  @ApiResponse({ status: 200, type: UserEntity })
   @Post('/registration')
-  registration(@Body() userDto: CreateUserDto) {
+  userRegistration(@Body() userDto: CreateUserDto) {
     return this.authService.registration(userDto);
   }
 }

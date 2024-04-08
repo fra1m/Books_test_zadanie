@@ -1,4 +1,5 @@
 import { UserEntity } from '@entities/User.entity';
+import { AuthUserDto } from '@modules/auth/dto/auth-user.dto';
 import { CreateUserDto } from '@modules/user/dto/create-user.dto';
 import { UserService } from '@modules/user/user.service';
 import {
@@ -31,7 +32,7 @@ export class AuthService {
     };
   }
 
-  private async validateUser(userDto: CreateUserDto) {
+  private async validateUser(userDto: AuthUserDto) {
     const user = await this.userService.getUserByEmail(userDto.email);
     const passwordCompare = await bcrypt.compare(
       userDto.password,
@@ -44,13 +45,15 @@ export class AuthService {
     throw new UnauthorizedException('Неккоректный логин или пароль');
   }
 
-  async login(userDto: CreateUserDto) {
+  async login(userDto: AuthUserDto) {
     const user = await this.validateUser(userDto);
     return this.generateToken(user);
   }
 
   async registration(userDto: CreateUserDto) {
     const candidate = await this.userService.getUserByEmail(userDto.email);
+
+    console.log(candidate);
 
     if (candidate) {
       throw new HttpException(
@@ -68,6 +71,8 @@ export class AuthService {
       ...userDto,
       password: hashPassword,
     });
-    return this.generateToken(user);
+
+    const token = this.generateToken(user);
+    return user;
   }
 }

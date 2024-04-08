@@ -1,34 +1,64 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Req,
+  Query,
+} from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
+import { JwtAuthGuard } from '@modules/auth/jwt-auth.guard';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { BookEntity } from '@entities/Book.entity';
+import { OwnerGuard } from '@modules/auth/owner.guard';
 
-@Controller('book')
+@ApiTags('CRUD Books')
+@Controller('books')
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
-  @Post()
-  create(@Body() createBookDto: CreateBookDto) {
-    return this.bookService.create(createBookDto);
+  @ApiOperation({ summary: 'Создание книги' })
+  @ApiResponse({ status: 200, type: BookEntity })
+  @UseGuards(JwtAuthGuard)
+  @Post('')
+  createBook(@Body() createBookDto: CreateBookDto, @Req() req: any) {
+    const user = req.user;
+    return this.bookService.createBook(createBookDto, +user.id);
   }
 
-  @Get()
-  findAll() {
-    return this.bookService.findAll();
+  @ApiOperation({ summary: 'Получение всех книг' })
+  @ApiResponse({ status: 200, type: [BookEntity] })
+  @Get('')
+  getAllBooks() {
+    return this.bookService.getAllBooks();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookService.findOne(+id);
+  getBookById(@Param('id') id: number) {
+    return this.bookService.getBookById(id);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(OwnerGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.bookService.update(+id, updateBookDto);
+  updateBookById(
+    @Param('id') id: number,
+    @Body() updateBookDto: UpdateBookDto,
+  ) {
+    return this.bookService.updateBookById(id, updateBookDto);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(OwnerGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookService.remove(+id);
+  removeBookById(@Param('id') id: number) {
+    return this.bookService.removeBookById(id);
   }
 }

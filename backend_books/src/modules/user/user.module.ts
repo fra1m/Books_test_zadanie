@@ -11,7 +11,6 @@ import { AuthModule } from '@modules/auth/auth.module';
   providers: [UserService],
   imports: [
     TypeOrmModule.forFeature([UserEntity]), // Регистрируем UserEntity в TypeOrmModule
-    BookModule,
     forwardRef(() => AuthModule),
   ],
   exports: [UserService],

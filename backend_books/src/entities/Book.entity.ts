@@ -16,7 +16,7 @@ export class BookEntity extends BaseEntity {
   id: number;
 
   @ApiProperty({
-    example: ' ',
+    example: 'Приключения Короля Артура',
     description: 'Название книги',
   })
   @Column({ nullable: false })
@@ -32,22 +32,21 @@ export class BookEntity extends BaseEntity {
   @ApiProperty({
     example: 'Эта книга о приключениях Короля Артура',
     description: 'Краткое описание книги',
+    minLength: 10,
+    maxLength: 100,
   })
   @Column({ nullable: false })
   description: string;
 
   @ApiProperty({
-    example: '1999',
+    example: '1999-2001',
     description: 'Год издания',
+    minLength: 4,
+    maxLength: 9,
   })
   @Column({ nullable: false })
   year: string;
 
-  @ApiProperty({
-    example: '1',
-    description: 'Уникальный идификатор автора',
-  })
   @ManyToOne(() => UserEntity, (user) => user.books)
-  @JoinColumn({ name: 'user_id' })
-  user_id: UserEntity;
+  user: UserEntity;
 }
