@@ -40,7 +40,7 @@ https://www.docker.com
    yarn revert
    ```
 
-# 2. Если команды `yarn migration` или `yarn migrate` не работают то тогда установити зависимости вручную
+# Если команды `yarn migration` или `yarn migrate` не работают то тогда установити зависимости вручную
 1. Перейдите в папку backend_books
    ```
    cd backend_books
@@ -49,7 +49,7 @@ https://www.docker.com
    ```
    yarn
    ```
-# 3. CRUD операции 
+# CRUD операции 
 
 - `POST http://localhost:3000/users/register` – регистрация нового пользователя.
 - `POST http://localhost:3000/users/login` – аутентификация пользователя и возврат JWT токена.
