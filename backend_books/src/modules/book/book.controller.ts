@@ -9,6 +9,10 @@ import {
   UseGuards,
   Req,
   Query,
+  DefaultValuePipe,
+  ParseIntPipe,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
@@ -35,8 +39,20 @@ export class BookController {
   @ApiOperation({ summary: 'Получение всех книг' })
   @ApiResponse({ status: 200, type: [BookEntity] })
   @Get('')
-  getAllBooks() {
-    return this.bookService.getAllBooks();
+  @UsePipes(
+    new ValidationPipe({
+      forbidUnknownValues: true,
+      transform: true,
+      skipMissingProperties: true,
+    }),
+  )
+  async getAllBooks(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('author') author?: string,
+    @Query('year') year?: string,
+  ) {
+    return this.bookService.getAllBooks(page, limit, author, year);
   }
 
   @Get(':id')

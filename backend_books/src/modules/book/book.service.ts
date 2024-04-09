@@ -23,12 +23,55 @@ export class BookService {
     return await this.bookRepository.save(book);
   }
 
-  async getAllBooks() {
-    const books = await this.bookRepository
+  async getAllBooks(
+    page?: number,
+    limit?: number,
+    author?: string,
+    year?: string,
+  ) {
+    const queryBuilder = await this.bookRepository
       .createQueryBuilder('book')
       .leftJoinAndSelect('book.user', 'user')
+      .orderBy('book.id', 'ASC');
+
+    if (author) {
+      queryBuilder.where('book.author = :author', { author });
+    }
+    if (year) {
+      queryBuilder.andWhere('book.year = :year', { year });
+    }
+
+    const totalCount = await queryBuilder.getCount();
+    const offset = (page - 1) * limit;
+
+    if (offset < 0) {
+      throw new HttpException('Книги не найдена', HttpStatus.BAD_REQUEST);
+    }
+
+    if (offset > totalCount) {
+      const lastPageOffset = Math.max(
+        0,
+        Math.floor((totalCount - 1) / limit) * limit,
+      );
+
+      const books = await queryBuilder
+        .skip(lastPageOffset)
+        .take(limit)
+        .getMany();
+
+      return books;
+    }
+
+    const books = await queryBuilder
+      .skip((page - 1) * limit)
+      .take(limit)
       .getMany();
 
+    if (books.length === 0) {
+      console.log(books);
+
+      throw new HttpException('Книги не найдена', HttpStatus.NOT_FOUND);
+    }
     return books;
   }
 
