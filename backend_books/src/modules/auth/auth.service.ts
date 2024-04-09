@@ -34,6 +34,12 @@ export class AuthService {
 
   private async validateUser(userDto: AuthUserDto) {
     const user = await this.userService.getUserByEmail(userDto.email);
+    if (!user) {
+      throw new HttpException(
+        'Пользователь не зарегестрирован',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
     const passwordCompare = await bcrypt.compare(
       userDto.password,
       user.password,

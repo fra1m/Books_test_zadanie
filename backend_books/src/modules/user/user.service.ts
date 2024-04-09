@@ -20,12 +20,6 @@ export class UserService {
     const user = await this.userRepository.findOne({
       where: { email },
     });
-    if (!user) {
-      throw new HttpException(
-        'Пользователь не зарегестрирован',
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
     return user;
   }
 
