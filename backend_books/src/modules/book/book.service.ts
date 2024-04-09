@@ -48,7 +48,7 @@ export class BookService {
       throw new HttpException('Книги не найдена', HttpStatus.BAD_REQUEST);
     }
 
-    if (offset > totalCount) {
+    if (offset >= totalCount) {
       const lastPageOffset = Math.max(
         0,
         Math.floor((totalCount - 1) / limit) * limit,
