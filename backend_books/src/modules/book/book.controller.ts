@@ -54,12 +54,15 @@ export class BookController {
   ) {
     return this.bookService.getAllBooks(page, limit, author, year);
   }
-
+  @ApiOperation({ summary: 'Получение книге по id' })
+  @ApiResponse({ status: 200, type: BookEntity })
   @Get(':id')
   getBookById(@Param('id') id: number) {
     return this.bookService.getBookById(id);
   }
 
+  @ApiOperation({ summary: 'Обновление книге по Id (только владелец книги)' })
+  @ApiResponse({ status: 200, type: BookEntity })
   @UseGuards(OwnerGuard)
   @Patch(':id')
   updateBookById(
@@ -69,6 +72,8 @@ export class BookController {
     return this.bookService.updateBookById(id, updateBookDto);
   }
 
+  @ApiOperation({ summary: 'Удаление книги по Id (только владелец книги)' })
+  @ApiResponse({ status: 200, type: BookEntity })
   @UseGuards(OwnerGuard)
   @Delete(':id')
   removeBookById(@Param('id') id: number) {
