@@ -11,8 +11,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       isGlobal: true,
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
